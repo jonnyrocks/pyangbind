@@ -361,9 +361,12 @@ class pybindIETFXMLEncoder(object):
         ns_map = [(None, element._namespace)]
         if element._yang_type == "identityref" and element._changed():
             # configured identityref (i.e. points to a valid identity)
-            ns_map.append(
-                (element._enumeration_dict[element]["@module"], element._enumeration_dict[element]["@namespace"])
-            )
+            try:
+                ns_map.append(
+                    (element._enumeration_dict[element]["@module"], element._enumeration_dict[element]["@namespace"])
+                )
+            except AttributeError:
+              pass
         return yname, tuple(ns_map)
 
     @classmethod
